@@ -141,9 +141,13 @@ class Transformer:
         triples = [
             ("Settlement", settlement['id'], "id", settlement['id']),
             ("Settlement", settlement['id'], "amount", str(settlement['amount'])),
-            ("Settlement", settlement['id'], "date", str(settlement['date'])),
             ("Settlement", settlement['id'], "status", settlement['status']),
         ]
+        # 可選欄位
+        if 'date' in settlement and settlement['date']:
+            triples.append(("Settlement", settlement['id'], "date", str(settlement['date'])))
+        if 'description' in settlement and settlement['description']:
+            triples.append(("Settlement", settlement['id'], "description", settlement['description']))
         return triples
 
 

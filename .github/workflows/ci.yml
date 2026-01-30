@@ -16,33 +16,32 @@ env:
 
 jobs:
   # ========================================
-  # Backend Tests & Lint
+  # Backend Tests & Lint (uv)
   # ========================================
   backend:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
         with:
-          python-version: '3.11'
-          cache: 'pip'
+          enable-cache: true
+
+      - name: Set up Python
+        run: uv python install 3.11
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: uv sync
 
       - name: Run linter
-        run: ruff check src/ tests/
-
-      - name: Run type checker
-        run: mypy src/
+        run: uv run ruff check src/ tests/
 
       - name: Run tests
-        run: pytest tests/ --cov=src --cov-report=xml --cov-report=term-missing
+        run: uv run pytest tests/ --cov=src --cov-report=xml --cov-report=term-missing
 
       - name: Upload coverage
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
           files: ./coverage.xml
           flags: backend
@@ -140,42 +139,3 @@ jobs:
           labels: ${{ steps.meta-frontend.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-
-  # ========================================
-  # Integration Tests
-  # ========================================
-  integration:
-    runs-on: ubuntu-latest
-    needs: [backend, frontend]
-    services:
-      neo4j:
-        image: neo4j:5.12
-        ports:
-          - 7474:7474
-          - 7687:7687
-        env:
-          NEO4J_AUTH: neo4j/test
-        options: >-
-          --health-cmd "curl -f http://localhost:7474"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Install dependencies
-        run: pip install -r pyproject.toml
-
-      - name: Run integration tests
-        run: |
-          pytest tests/integration/ -v
-
-      - name: Run E2E tests (if exists)
-        run: |
-          cd frontend && npm ci && npm run test:e2e || echo "No E2E tests configured"

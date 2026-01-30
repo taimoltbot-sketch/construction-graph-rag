@@ -62,11 +62,6 @@ class TestNeo4jLoader:
         loader = Neo4jLoader("bolt://localhost:7687", "neo4j", "password")
         loader.connect()
 
-        triples = [
-            ("Project", "PRJ-001", "id", "PRJ-001"),
-            ("Project", "PRJ-001", "name", "台北豪宅"),
-        ]
-
         # 測試 load_triples 存在且可呼叫
         assert callable(loader.load_triples)
 

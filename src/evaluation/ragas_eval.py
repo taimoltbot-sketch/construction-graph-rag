@@ -36,13 +36,13 @@ class RAGEvaluator:
     ) -> EvaluationResult:
         """
         評估 RAG 結果
-        
+
         Args:
             question: 使用者問題
             answer: 系統回覆
             context: 檢索到的 context
             sources: 來源列表
-            
+
         Returns:
             EvaluationResult: 評估結果
         """

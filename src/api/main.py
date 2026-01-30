@@ -86,7 +86,7 @@ async def root():
 async def chat(request: ChatRequest):
     """
     聊天 endpoint
-    
+
     支援：
     - 自然語言查詢
     - Markdown 格式回覆

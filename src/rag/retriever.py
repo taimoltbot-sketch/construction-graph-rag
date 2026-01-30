@@ -80,10 +80,10 @@ class GraphRAGRetriever:
     def retrieve(self, question: str) -> tuple[str, list[dict]]:
         """
         根據問題檢索相關圖譜資料
-        
+
         Args:
             question: 使用者問題
-            
+
         Returns:
             Tuple[context, results]
         """
@@ -131,7 +131,7 @@ ORDER BY f.order_num, t.id
         """查詢任務進度"""
         return """
 MATCH (t:Task)<-[:HAS_TASK]-(f:Floor)
-RETURN t.id as task_id, t.name as task, t.progress as progress, 
+RETURN t.id as task_id, t.name as task, t.progress as progress,
        t.unit as unit, f.floor_name as floor
 """
 

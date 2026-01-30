@@ -1,5 +1,7 @@
 // Frontend Components - Chat Interface
 
+'use client'
+
 import { useState, useRef, useEffect } from 'react'
 import { Send, Bot, User, FileText, Sparkles } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
@@ -119,11 +121,12 @@ export function ChatMessage({ message }: { message: Message }) {
         <div className="prose prose-gray max-w-none">
           <ReactMarkdown
             components={{
-              code({ node, inline, className, children, ...props }) {
-                const match = /language-(\w+)/.exec(className || '')
+              code({ inline, className, children, ...props }: { inline?: boolean; className?: string; children?: React.ReactNode } & React.HTMLAttributes<HTMLElement>) {
+                const match = className && /language-(\w+)/.exec(className)
                 return !inline && match ? (
                   <SyntaxHighlighter
-                    style={oneLight}
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    style={oneLight as any}
                     language={match[1]}
                     PreTag="div"
                     {...props}
@@ -210,7 +213,7 @@ export function ChatInterface() {
         mermaidChart: response.mermaid_chart,
         sources: response.sources,
       }])
-    } catch (error) {
+    } catch {
       setMessages(prev => [...prev, {
         role: 'assistant',
         content: '抱歉，發生錯誤。請稍後再試。',

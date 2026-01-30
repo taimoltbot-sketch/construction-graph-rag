@@ -2,9 +2,10 @@
 Test Configuration
 """
 
-import pytest
-import sys
 import os
+import sys
+
+import pytest
 
 # 確保 src 目錄在 path 中
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(__file__))))

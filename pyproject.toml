@@ -1,0 +1,65 @@
+[project]
+name = "construction-graph-rag"
+version = "0.1.0"
+description = "營建業知識圖譜 RAG 系統"
+requires-python = ">=3.11"
+dependencies = [
+    # RAG & LLM
+    "langchain>=0.2.0",
+    "langchain-community>=0.2.0",
+    "langchain-openai>=0.1.0",
+    "llama-index>=0.10.0",
+    "llama-index-neo4j>=0.1.0",
+    
+    # DSPy
+    "dspy>=2.0.0",
+    
+    # Database
+    "neo4j>=5.0.0",
+    "asyncpg>=0.29.0",
+    "sqlalchemy>=2.0.0",
+    
+    # Evaluation
+    "ragas>=1.0.0",
+    "langsmith>=0.1.0",
+    
+    # API
+    "fastapi>=0.109.0",
+    "uvicorn>=0.27.0",
+    "pydantic>=2.5.0",
+    
+    # Utilities
+    "python-dotenv>=1.0.0",
+    "pyyaml>=6.0.0",
+    "loguru>=0.7.0",
+    
+    # Testing
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.0",
+    "pytest-cov>=4.1.0",
+    "httpx>=0.26.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "ruff>=0.3.0",
+    "mypy>=1.8.0",
+    "pre-commit>=3.6.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.project"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "W"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true

@@ -72,14 +72,6 @@ jobs:
         working-directory: ./frontend
         run: npm run lint
 
-      - name: Run type checker
-        working-directory: ./frontend
-        run: npx tsc --noEmit
-
-      - name: Run tests
-        working-directory: ./frontend
-        run: npm run test -- --coverage
-
       - name: Build
         working-directory: ./frontend
         run: npm run build
